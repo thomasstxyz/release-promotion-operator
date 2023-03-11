@@ -1,12 +1,10 @@
 apiVersion: api.release-promotion-operator.io/v1alpha1
 kind: PromotionTemplate
 metadata:
-  labels:
-    app.kubernetes.io/name: promotiontemplate
-    app.kubernetes.io/instance: promotiontemplate-sample
-    app.kubernetes.io/part-of: release-promotion-operator
-    app.kubernetes.io/managed-by: kustomize
-    app.kubernetes.io/created-by: release-promotion-operator
   name: promotiontemplate-sample
 spec:
-  # TODO(user): Add fields here
+  copy:
+  - source: app-version
+    destination: app-version
+  - source: settings
+    destination: settings

@@ -20,16 +20,24 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // PromotionTemplateSpec defines the desired state of PromotionTemplate
 type PromotionTemplateSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// CopySpec contains a list of source/destination pairs,
+	// which represent file copy operations
+	// between the source and destination environment.
+	// +required
+	CopySpec []CopyOperation `json:"copy"`
+}
+type CopyOperation struct {
+	// Source is the path in the source environment.
+	// Can be either a file or a directory.
+	// +required
+	Source string `json:"source"`
 
-	// Foo is an example field of PromotionTemplate. Edit promotiontemplate_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Destination is the path in the destination environment.
+	// Can be either a file or a directory.
+	// +required
+	Destination string `json:"destination"`
 }
 
 // PromotionTemplateStatus defines the observed state of PromotionTemplate
