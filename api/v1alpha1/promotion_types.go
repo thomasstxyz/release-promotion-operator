@@ -20,16 +20,34 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // PromotionSpec defines the desired state of Promotion
 type PromotionSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// FromSpec specifies where to promote from.
+	// +required
+	FromSpec FromSpec `json:"from"`
 
-	// Foo is an example field of Promotion. Edit promotion_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// ToSpec specifies where to promote to.
+	// +required
+	ToSpec ToSpec `json:"to"`
+
+	// Strategy specifies how to promote.
+	// +required
+	Strategy Strategy `json:"strategy"`
+}
+
+// FromSpec defines the source of the promotion.
+type FromSpec struct {
+	EnvironmentRef EnvironmentReference `json:"environmentRef"`
+}
+
+// ToSpec defines the destination of the promotion.
+type ToSpec struct {
+	EnvironmentRef EnvironmentReference `json:"environmentRef"`
+}
+
+// Strategy defines the strategy for the promotion.
+type Strategy struct {
+	PullRequest bool `json:"pull-request"`
 }
 
 // PromotionStatus defines the observed state of Promotion

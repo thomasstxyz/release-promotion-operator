@@ -1,3 +1,4 @@
+---
 apiVersion: api.release-promotion-operator.io/v1alpha1
 kind: Environment
 metadata:
@@ -5,6 +6,17 @@ metadata:
 spec:
   source:
     url: https://github.com/thomasstxyz/example-kustomize-overlay-dev
+    ref:
+      branch: main
+  path: ./
+---
+apiVersion: api.release-promotion-operator.io/v1alpha1
+kind: Environment
+metadata:
+  name: prod
+spec:
+  source:
+    url: https://github.com/thomasstxyz/example-kustomize-overlay-prod
     ref:
       branch: main
   path: ./
