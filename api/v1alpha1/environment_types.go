@@ -20,16 +20,36 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // EnvironmentSpec defines the desired state of Environment
 type EnvironmentSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Source specifies the source Git Repository.
+	// +required
+	Source *SourceSpec `json:"source"`
 
-	// Foo is an example field of Environment. Edit environment_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Path to the directory which represents the environment.
+	// Defaults to 'None', which translates to the root path of the Source.
+	// +optional
+	Path string `json:"path,omitempty"`
+}
+
+// SourceSpec includes the Git reference of the source Git Repository.
+type SourceSpec struct {
+	// URL specifies the Git repository URL, it can be an HTTP/S or SSH address.
+	// +kubebuilder:validation:Pattern="^(http|https|ssh)://.*$"
+	// +required
+	URL string `json:"url"`
+
+	// Reference specifies the Git reference to resolve and monitor for
+	// changes, defaults to the 'master' branch.
+	// +optional
+	Reference *GitRepositoryRef `json:"ref,omitempty"`
+}
+
+// GitRepositoryRef specifies the Git reference to resolve and checkout.
+type GitRepositoryRef struct {
+	// Branch to check out, defaults to 'master' if no other field is defined.
+	// +optional
+	Branch string `json:"branch,omitempty"`
 }
 
 // EnvironmentStatus defines the observed state of Environment
