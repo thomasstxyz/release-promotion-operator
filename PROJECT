@@ -24,4 +24,13 @@ resources:
   kind: PromotionTemplate
   path: github.com/thomasstxyz/release-promotion-operator/api/v1alpha1
   version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: release-promotion-operator.io
+  group: api
+  kind: Promotion
+  path: github.com/thomasstxyz/release-promotion-operator/api/v1alpha1
+  version: v1alpha1
 version: "3"
