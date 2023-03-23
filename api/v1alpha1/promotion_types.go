@@ -30,9 +30,33 @@ type PromotionSpec struct {
 	// +required
 	ToSpec ToSpec `json:"to"`
 
+	// TemplateRef specifies the reference to the PromotionTemplate.
+	// +required
+	TemplateRef TemplateRef `json:"templateRef"`
+
 	// Strategy specifies how to promote.
 	// +required
 	Strategy Strategy `json:"strategy"`
+
+	// A list of resources to be included in the readiness check.
+	// +optional
+	ReadinessChecks ReadinessChecks `json:"readinessChecks,omitempty"`
+}
+
+// TypedLocalObjectReference defines the readiness checks to be done before doing the promotion.
+type ReadinessChecks struct {
+	// A list of objects (in the same namespace) to be included in the readiness check.
+	LocalObjectsRef []LocalObjectsRef `json:"localObjectsRef"`
+}
+
+type LocalObjectsRef struct {
+	GroupVersionResource metav1.GroupVersionResource `json:"groupVersionResource"`
+
+	Name string `json:"name"`
+}
+
+func (in *Promotion) GetLocalObjectsRefsForReadinessChecks() []LocalObjectsRef {
+	return in.Spec.ReadinessChecks.LocalObjectsRef
 }
 
 // FromSpec defines the source of the promotion.
@@ -45,6 +69,11 @@ type ToSpec struct {
 	EnvironmentRef EnvironmentReference `json:"environmentRef"`
 }
 
+// TemplateRef defines the reference to the PromotionTemplate.
+type TemplateRef struct {
+	Name string `json:"name"`
+}
+
 // Strategy defines the strategy for the promotion.
 type Strategy struct {
 	PullRequest bool `json:"pull-request"`
@@ -54,6 +83,14 @@ type Strategy struct {
 type PromotionStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// Conditions holds the conditions for the Promotion.
+	// +optional
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
+
+	// DependentObjectsReady ...
+	// +optional
+	DependentObjectsReady bool `json:"dependentObjectsReady"`
 }
 
 //+kubebuilder:object:root=true
