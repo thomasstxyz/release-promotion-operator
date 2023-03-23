@@ -97,9 +97,16 @@ func (r *PromotionReconciler) readinessChecks(ctx context.Context, promotion *ap
 			Resource: dr.GroupVersionResource.Resource,
 		}
 
+		var ns string
+		if dr.Namespace != "" {
+			ns = dr.Namespace
+		} else {
+			ns = promotion.Namespace
+		}
+
 		// Fetch dependent object
 		var obj *unstructured.Unstructured
-		obj, err = dynamicClient.Resource(gvr).Namespace(promotion.Namespace).Get(ctx, dr.Name, v1.GetOptions{}, "")
+		obj, err = dynamicClient.Resource(gvr).Namespace(ns).Get(ctx, dr.Name, v1.GetOptions{}, "")
 		if err != nil {
 			fmt.Printf("error getting obj: %v\n", err)
 			return false, unreadyResources, err

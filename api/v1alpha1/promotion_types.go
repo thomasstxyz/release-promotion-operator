@@ -53,6 +53,9 @@ type LocalObjectsRef struct {
 	GroupVersionResource metav1.GroupVersionResource `json:"groupVersionResource"`
 
 	Name string `json:"name"`
+
+	// +optional
+	Namespace string `json:"namespace,omitempty"`
 }
 
 func (in *Promotion) GetLocalObjectsRefsForReadinessChecks() []LocalObjectsRef {

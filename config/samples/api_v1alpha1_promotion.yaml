@@ -20,3 +20,16 @@ spec:
           group: apps
           version: v1
           resource: deployments
+      - name: podinfo
+        namespace: flux-system
+        groupVersionResource:
+          group: kustomize.toolkit.fluxcd.io
+          version: v1beta2
+          resource: kustomizations
+      # ArgoCD Applications do NOT work, because the /status subresources do not adhere to kstatus spec
+      # - name: guestbook
+      #   namespace: argocd
+      #   groupVersionResource:
+      #     group: argoproj.io
+      #     version: v1alpha1
+      #     resource: applications
